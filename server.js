@@ -1,26 +1,32 @@
- const express = require('express');
+const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
+require('dotenv').config();
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
-const validUsername = 'admin';
-const validPassword = '1234';
-
+// Serve static files from /public
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static('public'));
 
+console.log("Loaded USERNAME:", process.env.USERNAME);
+console.log("Loaded PASSWORD:", process.env.PASSWORD);
+
+// Login endpoint
 app.post('/login', (req, res) => {
   const { username, password } = req.body;
 
-  if (username === validUsername && password === validPassword) {
+  if (
+    username === process.env.USERNAME &&
+    password === process.env.PASSWORD
+  ) {
     res.redirect('/dashboard.html');
   } else {
-    res.send('<h2>Login failed. <a href=\"/\">Try again</a></h2>');
+    res.redirect('/?error=1');
   }
 });
 
 app.listen(PORT, () => {
-  console.log(`✅ Server running at http://localhost:${PORT}`);
+  console.log(`Server running at http://localhost:${PORT}`);
 });

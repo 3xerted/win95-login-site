@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Please Log-in</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Windows 95 Login</title>
   <style>
     :root {
-      --background-image: url('background.jpg'); /* Change this file name as needed */
+      --background-image: url('background.jpg'); /* <-- Change this filename as needed */
     }
 
     body {
@@ -30,12 +30,12 @@
     .title-bar {
       background: linear-gradient(to right, #000080, #0000cd);
       color: white;
-      padding: 8px;
+      padding: 12px;
       font-weight: bold;
       display: flex;
       justify-content: start;
       align-items: center;
-      font-size: 18px;
+      font-size: 20px;
     }
 
     .title-bar-text {
@@ -43,7 +43,7 @@
     }
 
     .window-body {
-      padding: 20px;
+      padding: 24px;
     }
 
     h2 {
@@ -57,17 +57,18 @@
       margin-bottom: 10px;
     }
 
-    input[type="text"], input[type="password"] {
+    input[type="text"],
+    input[type="password"] {
       width: 100%;
-      padding: 4px;
+      padding: 6px;
       border: 2px solid #808080;
       background-color: white;
       box-shadow: inset -1px -1px #fff, inset 1px 1px #000;
     }
 
     button {
-      margin-top: 10px;
-      padding: 4px 14px;
+      margin-top: 12px;
+      padding: 6px 16px;
       background-color: #c0c0c0;
       border: 2px solid #808080;
       box-shadow: inset -1px -1px #fff, inset 1px 1px #000;
@@ -77,44 +78,39 @@
     button:active {
       box-shadow: inset 1px 1px #fff, inset -1px -1px #000;
     }
+
+    #message {
+      margin-top: 12px;
+      color: red;
+      display: none;
+      text-align: center;
+    }
   </style>
 </head>
 <body>
   <div class="window">
     <div class="title-bar">
-      <div class="title-bar-text">Please Log-in</div>
+      <div class="title-bar-text">Windows 95 Login</div>
     </div>
     <div class="window-body">
-      <h2>Access Portal</h2>
-      <form id="loginForm">
+      <h2>Welcome</h2>
+      <form id="loginForm" method="POST" action="/login">
         <label for="username">Username:</label>
-        <input type="text" id="username" name="username">
+        <input type="text" id="username" name="username" />
 
         <label for="password">Password:</label>
-        <input type="password" id="password" name="password">
+        <input type="password" id="password" name="password" />
 
         <button type="submit">OK</button>
-        <div id="message" style="margin-top:10px; color:red; display:none;">Invalid credentials</div>
+        <div id="message">Invalid credentials</div>
       </form>
     </div>
   </div>
-
   <script>
-    // Obfuscate credentials using base64
-    const encodedUsername = "YWRtaW4="; // "admin"
-    const encodedPassword = "MTIzNA=="; // "1234"
-
-    document.getElementById("loginForm").addEventListener("submit", function(event) {
-      event.preventDefault();
-      const username = btoa(document.getElementById("username").value);
-      const password = btoa(document.getElementById("password").value);
-
-      if (username === encodedUsername && password === encodedPassword) {
-        window.location.href = "https://example.com/dashboard";
-      } else {
-        document.getElementById("message").style.display = "block";
-      }
-    });
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get("error") === "1") {
+      document.getElementById("message").style.display = "block";
+    }
   </script>
 </body>
 </html>
